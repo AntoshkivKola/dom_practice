@@ -12,6 +12,8 @@ const array = [];
 const form = document.getElementById('root-form');
 
 const messageContainer = document.getElementById('root');
+const btnDeleteLi = document.getElementById('delete-last-message');
+
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -19,17 +21,33 @@ form.addEventListener('submit', (e) => {
     target: { email },
   } = e; // target === form;
 
-  if(![...email.value].includes('@') || email.value === '' ){
-    throw new Error('-(.H.)-');
-  }
+
+  validateEmailInput(email.value);
 
   array.push(email.value);
-  console.dir(email.value);
+
+  createMessage(array[array.length - 1]);
   
+  e.target.reset(); // очищаем значение формы после сабмита
+  //email.value = ''; // очищаем значение формы после сабмита
+});
+
+btnDeleteLi.addEventListener('click', deleteLastLi);
+
+function validateEmailInput(value) {
+  if (![...value].includes('@') || value === '') {
+    throw new Error('-(.H.)-');
+  }
+}
+
+function createMessage(value) {
   const li = document.createElement('li');
-  li.append(document.createTextNode(email.value));
+  li.append(document.createTextNode(value));
 
   messageContainer.append(li);
+}
 
-  email.value = ''; // очищаем значение формы после сабмита
-});
+function deleteLastLi(e){
+  messageContainer.firstElementChild.remove();
+  array.pop();
+}
