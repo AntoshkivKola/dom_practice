@@ -11,9 +11,13 @@ form.addEventListener('submit', (e) => {
   const {
     target: { email },
   } = e; // target === form;
+
+  if(![...email.value].includes('@') || email.value === '' ){
+    throw new Error('-(.H.)-');
+  }
+
   array.push(email.value);
   console.dir(email.value);
-  
   
   const li = document.createElement('li');
   li.append(document.createTextNode(email.value));
